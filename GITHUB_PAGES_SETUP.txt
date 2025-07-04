@@ -1,0 +1,99 @@
+============================================================
+  CYDROID TECHNOLOGIES — GitHub Pages Activation Guide
+============================================================
+
+The code is now fully pushed to GitHub with a working
+automated deployment pipeline. You just need to activate
+GitHub Pages ONE TIME in your repo settings.
+
+------------------------------------------------------------
+STEP 1 — Open Your Repo Settings
+------------------------------------------------------------
+Go to this URL in your browser:
+
+  https://github.com/cobotte/Cydroid-Technologies-/settings/pages
+
+------------------------------------------------------------
+STEP 2 — Set Source to "GitHub Actions"
+------------------------------------------------------------
+On the Pages settings page:
+
+  1. Find the section labeled: "Build and deployment"
+  2. Under "Source", click the dropdown
+  3. Select: "GitHub Actions"
+  4. Click SAVE (if there is a Save button)
+
+That's it. No other changes needed.
+
+------------------------------------------------------------
+STEP 3 — Trigger First Deployment
+------------------------------------------------------------
+After saving, GitHub will automatically trigger the first
+deployment. You can watch it here:
+
+  https://github.com/cobotte/Cydroid-Technologies-/actions
+
+You will see a workflow called:
+  "Deploy to GitHub Pages"
+
+Click on it to watch the build in real-time.
+It takes about 2-3 minutes to complete.
+
+------------------------------------------------------------
+STEP 4 — View Your Live Site
+------------------------------------------------------------
+Once the workflow shows a green checkmark ✓, your site
+will be live at:
+
+  https://cobotte.github.io/Cydroid-Technologies-/
+
+------------------------------------------------------------
+WHAT WAS FIXED (Technical Summary)
+------------------------------------------------------------
+The 404 error was caused by 4 build bugs that were all fixed:
+
+  BUG 1 — sitemap.ts used Node.js fs.readdirSync()
+           Static export cannot use filesystem at build time.
+           FIXED: Replaced with hardcoded static route list.
+
+  BUG 2 — robots.ts missing "force-static" directive
+           FIXED: Added export const dynamic = "force-static"
+
+  BUG 3 — next.config.ts had headers() and redirects()
+           These are not supported with output: "export"
+           FIXED: Removed both incompatible functions.
+
+  BUG 4 — API routes (/api/contact, /api/book-demo)
+           Server-side handlers can't run on GitHub Pages.
+           FIXED: Added force-static directive to both routes.
+           NOTE: Forms won't submit on GitHub Pages (no server).
+                 For full form functionality, deploy on Vercel.
+
+  BUG 5 — WhyCobotteSection.tsx had wrong filename
+           Import in page.tsx was pointing to old Cobotte name.
+           FIXED: Renamed file + fixed import path.
+
+------------------------------------------------------------
+AFTER YOUR SITE IS LIVE — Future Deployments
+------------------------------------------------------------
+Every time you push code to the "main" branch, GitHub will
+AUTOMATICALLY rebuild and redeploy your site. You do NOT
+need to do anything manually after the first setup.
+
+------------------------------------------------------------
+OPTIONAL — Custom Domain (cydroidtech.com)
+------------------------------------------------------------
+To use your own domain instead of cobotte.github.io:
+
+  1. Go to: github.com/cobotte/Cydroid-Technologies-/settings/pages
+  2. Under "Custom domain", type: cydroidtech.com
+  3. Click Save
+  4. Add a CNAME record in your DNS provider:
+       Type:  CNAME
+       Name:  www
+       Value: cobotte.github.io
+  5. Wait 24 hours for DNS to propagate
+
+------------------------------------------------------------
+  Questions? Contact: contact@cydroidtech.com
+============================================================
