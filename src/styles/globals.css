@@ -1,0 +1,1211 @@
+@import "tailwindcss";
+
+/* ================================================================
+   CYDROID TECHNOLOGIES — DESIGN SYSTEM v2.0
+   Phase 2: Complete Visual Foundation
+   
+   Architecture:
+   1.  Primitive Color Scales      (reference palette — never use directly)
+   2.  Semantic Tokens — Light     (:root)
+   3.  Semantic Tokens — Dark      (.dark)
+   4.  Tailwind v4 @theme          (utility class generation)
+   5.  Keyframe Animations         (definitions only)
+   6.  Global Reset & Base Styles  (@layer base)
+   7.  Glassmorphism Utilities     (@layer utilities)
+   8.  Layout & Container System   (@layer utilities)
+   9.  Typography Utilities        (@layer utilities)
+   10. Surface & Decoration        (@layer utilities)
+   ================================================================ */
+
+/* ================================================================
+   1. PRIMITIVE COLOR SCALES
+   Raw palette values. Import via semantic tokens in components.
+   ================================================================ */
+
+:root {
+  /* ── Enterprise Blue (Primary Brand) ── */
+  --blue-50: #eff5ff;
+  --blue-100: #dce8ff;
+  --blue-200: #c0d4ff;
+  --blue-300: #93b3fd;
+  --blue-400: #5e89fa;
+  --blue-500: #3060f5;
+  --blue-600: #1d70f6;
+  --blue-700: #1558d6;
+  --blue-800: #1645a8;
+  --blue-900: #163985;
+  --blue-950: #102352;
+
+  /* ── Electric Cyan (Secondary Brand) ── */
+  --cyan-50: #edfcff;
+  --cyan-100: #d0f7fd;
+  --cyan-200: #a8effc;
+  --cyan-300: #6de4f7;
+  --cyan-400: #2bcde9;
+  --cyan-500: #09b2d4;
+  --cyan-600: #088fb2;
+  --cyan-700: #0d7191;
+  --cyan-800: #145b74;
+  --cyan-900: #154c63;
+  --cyan-950: #083040;
+
+  /* ── Carbon (Dark Surfaces) ── */
+  --carbon-50: #f0f4ff;
+  --carbon-100: #dde5f5;
+  --carbon-200: #becceb;
+  --carbon-300: #93a8cc;
+  --carbon-400: #6880a7;
+  --carbon-500: #4a6080;
+  --carbon-600: #334057;
+  --carbon-700: #1e2c42;
+  --carbon-800: #111c32;
+  --carbon-900: #08101e;
+  --carbon-950: #03070f;
+
+  /* ── Neutral Gray (Text) ── */
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+  --gray-950: #020617;
+}
+
+/* ================================================================
+   2. SEMANTIC DESIGN TOKENS — LIGHT THEME
+   Applied when no `.dark` class is present on <html>.
+   ================================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* ── Surfaces ── */
+  --background: #f4f7ff;
+  --background-2: #eaedfa;
+  --surface-1: #ffffff;
+  --surface-2: #f0f3ff;
+  --surface-3: #e5eaf8;
+  --foreground: #0a1628;
+
+  /* ── Card ── */
+  --card: #ffffff;
+  --card-foreground: #0a1628;
+  --card-hover: #f8faff;
+
+  /* ── Popover ── */
+  --popover: #ffffff;
+  --popover-foreground: #0a1628;
+
+  /* ── Primary — Enterprise Blue ── */
+  --primary: #1E88E5;
+  --primary-hover: #1565C0;
+  --primary-foreground: #ffffff;
+
+  /* ── Secondary ── */
+  --secondary: #eef3ff;
+  --secondary-foreground: #163985;
+  --secondary-hover: #dce8ff;
+
+  /* ── Accent — Sky Blue ── */
+  --accent: #38BDF8;
+  --accent-foreground: #ffffff;
+
+  /* ── Muted ── */
+  --muted: #eef1fb;
+  --muted-foreground: #475569;
+  --muted-hover: #e4e9f8;
+
+  /* ── Semantic States ── */
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  --success: #059669;
+  --success-foreground: #ffffff;
+
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
+
+  --info: #1558d6;
+  --info-foreground: #ffffff;
+
+  /* ── Borders ── */
+  --border: #cdd5e8;
+  --border-strong: #b4c0d8;
+  --input: #cdd5e8;
+  --ring: #1558d6;
+
+  /* ── Glassmorphism (Light) ── */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --glass-blur: 16px;
+
+  /* ── Shadow System (Light) ── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.06);
+  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.14);
+  --shadow-float: 0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-glow:
+    0 0 24px rgba(21, 88, 214, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-glow-sm: 0 0 12px rgba(21, 88, 214, 0.15);
+  --shadow-cyber: 0 0 20px rgba(21, 88, 214, 0.14);
+  --shadow-inset: inset 0 1px 3px rgba(0, 0, 0, 0.07);
+
+  /* ── Animation Timing (shared — same in both themes) ── */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-snappy: cubic-bezier(0.25, 0, 0, 1);
+  --ease-elastic: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+  --duration-instant: 75ms;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-xslow: 600ms;
+  --duration-lazy: 800ms;
+}
+
+/* ================================================================
+   3. SEMANTIC DESIGN TOKENS — DARK THEME
+   Applied when `.dark` class is present on <html> via next-themes.
+   This is the PRIMARY / DEFAULT visual experience for CYDROID.
+   ================================================================ */
+
+.dark {
+  color-scheme: dark;
+
+  /* ── Surfaces ── */
+  --background: #03070f;
+  --background-2: #060d1a;
+  --surface-1: #060d1a;
+  --surface-2: #0a1428;
+  --surface-3: #0f1c38;
+  --foreground: #eef2ff;
+
+  /* ── Card ── */
+  --card: #0a1428;
+  --card-foreground: #eef2ff;
+  --card-hover: #0f1a35;
+
+  /* ── Popover ── */
+  --popover: #0c1630;
+  --popover-foreground: #eef2ff;
+
+  /* ── Primary — Enterprise Blue ── */
+  --primary: #1E88E5;
+  --primary-hover: #42A5F5;
+  --primary-foreground: #ffffff;
+
+  /* ── Secondary ── */
+  --secondary: #0f1c38;
+  --secondary-foreground: #c0d0e8;
+  --secondary-hover: #152240;
+
+  /* ── Accent — Sky Blue ── */
+  --accent: #38BDF8;
+  --accent-foreground: #03070f;
+
+  /* ── Muted ── */
+  --muted: #0d1932;
+  --muted-foreground: #6a88a8;
+  --muted-hover: #111e3a;
+
+  /* ── Semantic States ── */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --success: #10b981;
+  --success-foreground: #03070f;
+
+  --warning: #f59e0b;
+  --warning-foreground: #03070f;
+
+  --info: #1d70f6;
+  --info-foreground: #ffffff;
+
+  /* ── Borders ── */
+  --border: #1a2c4a;
+  --border-strong: #253f65;
+  --input: #1a2c4a;
+  --ring: #1d70f6;
+
+  /* ── Glassmorphism (Dark) ── */
+  --glass-bg: rgba(6, 13, 26, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-blur: 16px;
+
+  /* ── Shadow System (Dark) ── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.65), 0 4px 8px rgba(0, 0, 0, 0.45);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.75), 0 8px 16px rgba(0, 0, 0, 0.55);
+  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.85);
+  --shadow-float: 0 8px 32px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-glow:
+    0 0 28px rgba(29, 112, 246, 0.3), 0 4px 16px rgba(0, 0, 0, 0.55);
+  --shadow-glow-sm: 0 0 14px rgba(29, 112, 246, 0.25);
+  --shadow-cyber: 0 0 24px rgba(29, 112, 246, 0.22);
+  --shadow-inset: inset 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+/* ================================================================
+   4. TAILWIND v4 @theme — DESIGN TOKEN MAPPING
+   Maps CSS variables to Tailwind utility class names.
+   ================================================================ */
+
+@theme {
+  /* ── Semantic Color Tokens ── */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-card-hover: var(--card-hover);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* ── Primitive Brand Scales (exposed as utilities) ── */
+  --color-cydroid-50: var(--blue-50);
+  --color-cydroid-100: var(--blue-100);
+  --color-cydroid-200: var(--blue-200);
+  --color-cydroid-300: var(--blue-300);
+  --color-cydroid-400: var(--blue-400);
+  --color-cydroid-500: var(--blue-500);
+  --color-cydroid-600: var(--blue-600);
+  --color-cydroid-700: var(--blue-700);
+  --color-cydroid-800: var(--blue-800);
+  --color-cydroid-900: var(--blue-900);
+  --color-cydroid-950: var(--blue-950);
+
+  --color-electric-50: var(--cyan-50);
+  --color-electric-100: var(--cyan-100);
+  --color-electric-300: var(--cyan-300);
+  --color-electric-400: var(--cyan-400);
+  --color-electric-500: var(--cyan-500);
+  --color-electric-600: var(--cyan-600);
+  --color-electric-700: var(--cyan-700);
+  --color-electric-900: var(--cyan-900);
+
+  /* ── Typography ── */
+  --font-sans:
+    var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --font-display:
+    var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
+  --font-mono:
+    var(--font-geist-mono), "Cascadia Code", "JetBrains Mono", "Fira Code",
+    ui-monospace, monospace;
+
+  /* ── Shadow Scale ── */
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+  --shadow-float: var(--shadow-float);
+  --shadow-glow: var(--shadow-glow);
+  --shadow-glow-sm: var(--shadow-glow-sm);
+  --shadow-cyber: var(--shadow-cyber);
+  --shadow-inset: var(--shadow-inset);
+
+  /* ── Animation System ── */
+  --duration-instant: var(--duration-instant);
+  --duration-fast: var(--duration-fast);
+  --duration-normal: var(--duration-normal);
+  --duration-slow: var(--duration-slow);
+  --duration-xslow: var(--duration-xslow);
+  --duration-lazy: var(--duration-lazy);
+
+  --ease-standard: var(--ease-standard);
+  --ease-decelerate: var(--ease-decelerate);
+  --ease-accelerate: var(--ease-accelerate);
+  --ease-spring: var(--ease-spring);
+  --ease-snappy: var(--ease-snappy);
+  --ease-elastic: var(--ease-elastic);
+
+  /* ── Animation Keyframe References ── */
+  --animate-cyber-pulse: cyber-pulse 3s ease-in-out infinite;
+  --animate-scanline: scanline 12s linear infinite;
+  --animate-shimmer: shimmer 1.8s ease-in-out infinite;
+  --animate-fade-in: fade-in 0.3s var(--ease-decelerate) forwards;
+  --animate-fade-in-up: fade-in-up 0.4s var(--ease-decelerate) forwards;
+  --animate-slide-up: slide-up 0.35s var(--ease-decelerate) forwards;
+  --animate-scale-in: scale-in 0.25s var(--ease-spring) forwards;
+  --animate-scroll-dot: scroll-dot 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+
+  /* ── Z-Index Layers ── */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 20;
+  --z-sticky: 30;
+  --z-overlay: 40;
+  --z-header: 50;
+  --z-sidebar: 60;
+  --z-backdrop: 70;
+  --z-modal: 80;
+  --z-popover: 90;
+  --z-tooltip: 100;
+
+  /* ── Responsive Breakpoints ── */
+  --breakpoint-xs: 475px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 1920px;
+}
+
+/* ================================================================
+   5. KEYFRAME ANIMATIONS
+   Definitions only — no usage. Components opt-in via Tailwind
+   animate-* utilities or direct animation: property.
+   ================================================================ */
+
+/* Subtle primary glow pulse — for live indicators, icons */
+@keyframes cyber-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 3px rgba(29, 112, 246, 0.35));
+  }
+  50% {
+    opacity: 0.75;
+    filter: drop-shadow(0 0 10px rgba(29, 112, 246, 0.55));
+  }
+}
+
+/* Decorative background scanline — very subtle */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100vh);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+/* Loading skeleton shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* Mouse scroll indicator dot animation */
+@keyframes scroll-dot {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+}
+
+/* Entrance animations — used in Phase 4 via GSAP/Framer */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes ping-slow {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  75%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* ================================================================
+   6. GLOBAL RESET & BASE STYLES
+   ================================================================ */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    height: 100%;
+  }
+
+  body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans, system-ui, sans-serif);
+    font-size: 1rem;
+    line-height: 1.65;
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1,
+      "ss01" 1;
+    transition:
+      background-color 250ms var(--ease-standard),
+      color 250ms var(--ease-standard);
+  }
+
+  /* ── Heading Typography System ── */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display, var(--font-sans, system-ui, sans-serif));
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--foreground);
+  }
+
+  /* Typography Scale (fluid responsive) */
+  h1 {
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+  h3 {
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  h4 {
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  h5 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  h6 {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* Body text */
+  p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--muted-foreground);
+  }
+
+  /* Links */
+  a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+  a:hover {
+    color: var(--primary-hover);
+  }
+
+  /* Focus (global accessible default) */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+
+  /* Text selection */
+  ::selection {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  /* Images */
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Code & Monospace */
+  code,
+  kbd,
+  samp {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.875em;
+  }
+
+  pre {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.875rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    line-height: 1.7;
+  }
+
+  code:not(pre code) {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.15em 0.4em;
+    font-size: 0.8125em;
+  }
+
+  /* Horizontal rule */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  /* Accessible hide */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+}
+
+/* ================================================================
+   7. GLASSMORPHISM UTILITIES
+   Three tiers of glass effect: subtle, default, strong.
+   Light/dark modes handled via CSS variable theming.
+   Principle: elegant restraint — no heavy blur, no rainbow tints.
+   ================================================================ */
+
+@layer utilities {
+  /* Default glass — primary card-level glass */
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  }
+
+  /* Subtle glass — lightweight overlay, navigation */
+  .glass-subtle {
+    background: color-mix(in srgb, var(--glass-bg) 55%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glass-border) 55%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Strong glass — dialogs, modals */
+  .glass-strong {
+    background: color-mix(in srgb, var(--glass-bg) 145%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glass-border) 180%, transparent);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+  }
+
+  /* Dark-only glass — richer depth on dark surfaces */
+  .dark .glass-panel {
+    background: linear-gradient(
+      145deg,
+      rgba(10, 20, 40, 0.72) 0%,
+      rgba(6, 13, 26, 0.6) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+  }
+
+  .light .glass-panel {
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.78) 0%,
+      rgba(240, 243, 255, 0.65) 100%
+    );
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+  }
+}
+
+/* ================================================================
+   8. LAYOUT & CONTAINER SYSTEM
+   Mobile-first fluid containers + 12-column grid.
+   ================================================================ */
+
+@layer utilities {
+  /* ── Standard container (max 1440px) ── */
+  .container-custom {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 1440px;
+  }
+
+  @media (min-width: 640px) {
+    .container-custom {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  @media (min-width: 768px) {
+    .container-custom {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-custom {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .container-custom {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+  @media (min-width: 1920px) {
+    .container-custom {
+      padding-left: 4rem;
+      padding-right: 4rem;
+      max-width: 1800px;
+    }
+  }
+
+  /* ── Narrow container — blog, legal, forms (max 768px) ── */
+  .container-narrow {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 768px;
+  }
+  @media (min-width: 640px) {
+    .container-narrow {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  /* ── Wide container — dashboards, full-bleed (max 1920px) ── */
+  .container-wide {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 1920px;
+  }
+
+  /* ── 12-Column Grid System ── */
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .grid-12 {
+      gap: 2rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .grid-12 {
+      gap: 2.5rem;
+    }
+  }
+
+  /* ── Section Spacing Scale ── */
+  .section-sm {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .section-md {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  .section-lg {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+  .section-xl {
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-sm {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+    .section-md {
+      padding-top: 7rem;
+      padding-bottom: 7rem;
+    }
+    .section-lg {
+      padding-top: 10rem;
+      padding-bottom: 10rem;
+    }
+    .section-xl {
+      padding-top: 14rem;
+      padding-bottom: 14rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .section-xl {
+      padding-top: 18rem;
+      padding-bottom: 18rem;
+    }
+  }
+}
+
+/* ================================================================
+   9. TYPOGRAPHY UTILITIES
+   Extended type classes beyond the h1-h6 base scale.
+   ================================================================ */
+
+@layer utilities {
+  /* Display scale — for hero headlines */
+  .text-display-2xl {
+    font-family: var(--font-display, system-ui, sans-serif);
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-weight: 800;
+    line-height: 0.97;
+    letter-spacing: -0.05em;
+  }
+
+  .text-display-xl {
+    font-family: var(--font-display, system-ui, sans-serif);
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .text-display-lg {
+    font-family: var(--font-display, system-ui, sans-serif);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+
+  .text-display-md {
+    font-family: var(--font-display, system-ui, sans-serif);
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  /* Body / UI text */
+  .text-body-lg {
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+  .text-body-md {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  /* Label — small allcaps, high tracking */
+  .text-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  /* Caption */
+  .text-caption {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
+
+  /* Gradient text — primary-to-accent */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gradient text — foreground fade (Apple style) */
+  .text-gradient-subtle {
+    background: linear-gradient(
+      160deg,
+      var(--foreground) 30%,
+      color-mix(in srgb, var(--foreground) 50%, transparent) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Balance long headings */
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Hide scrollbar utility */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ================================================================
+   10. SURFACE, BACKGROUND & DECORATION UTILITIES
+   ================================================================ */
+
+@layer utilities {
+  /* ── Surface Elevation ── */
+  .surface-base {
+    background: var(--background);
+  }
+  .surface-1 {
+    background: var(--surface-1);
+  }
+  .surface-2 {
+    background: var(--surface-2);
+  }
+  .surface-3 {
+    background: var(--surface-3);
+  }
+
+  /* ── Skeleton Loader ── */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--surface-2) 0%,
+      var(--surface-3) 40%,
+      var(--surface-2) 80%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.8s ease-in-out infinite;
+    border-radius: 6px;
+  }
+
+  /* ── Subtle background patterns ── */
+  .bg-grid-subtle {
+    background-size: 40px 40px;
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  }
+
+  .bg-dot-subtle {
+    background-size: 22px 22px;
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--border-strong) 80%, transparent) 1px,
+      transparent 1px
+    );
+  }
+
+  /* Legacy aliases — kept for backward compatibility */
+  .bg-dot-cyber {
+    background-size: 24px 24px;
+    background-image: radial-gradient(
+      rgba(29, 112, 246, 0.1) 1px,
+      transparent 1px
+    );
+  }
+
+  .bg-grid-cyber {
+    background-size: 40px 40px;
+    background-image:
+      linear-gradient(to right, rgba(29, 112, 246, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(29, 112, 246, 0.05) 1px, transparent 1px);
+  }
+
+  /* ── Focus Ring ── */
+  .focus-ring-custom {
+    outline: none;
+  }
+  .focus-ring-custom:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+
+  /* ── Divider ── */
+  .divider-x {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .divider-y {
+    width: 1px;
+    height: 100%;
+    background: var(--border);
+  }
+
+  .divider-gradient {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--border-strong) 30%,
+      var(--border-strong) 70%,
+      transparent 100%
+    );
+  }
+
+  /* Hardware accelerate heavy ambient glows for smooth scrolling */
+  [class*="blur-"] {
+    will-change: filter, transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   THEME SWITCHER & CANVAS STYLING
+   ────────────────────────────────────────────────────────────────── */
+
+/* Smooth, premium transitions when switching themes */
+body, 
+header, 
+footer, 
+section, 
+.glass, 
+.glass-panel, 
+.card, 
+div[class*="bg-"], 
+div[class*="border-"], 
+span, 
+button, 
+a, 
+h1, 
+h2, 
+h3, 
+h4, 
+h5, 
+h6, 
+p, 
+svg {
+  transition: 
+    color 400ms var(--ease-standard), 
+    background-color 400ms var(--ease-standard), 
+    border-color 400ms var(--ease-standard), 
+    box-shadow 400ms var(--ease-standard),
+    filter 400ms var(--ease-standard);
+}
+
+/* Light mode adjustments for Glass Panels to maintain contrast */
+.light .glass,
+.light .glass-panel {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Light mode override for sections that are hardcoded with bg-[#03070f] or bg-black */
+.light section[class*="bg-[#03070f]"],
+.light section[id],
+.light div[class*="bg-[#03070f]"],
+.light select[class*="bg-[#03070f]"],
+.light option[class*="bg-[#03070f]"] {
+  background-color: var(--background) !important;
+}
+
+.light option {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+}
+
+.light select,
+.light input,
+.light textarea {
+  background-color: var(--surface-1) !important;
+  color: var(--foreground) !important;
+}
+
+/* Robot canvas inversion in light mode to act as light sketch/blueprint */
+.light #robot-background-canvas {
+  filter: invert(0.95) hue-rotate(180deg) brightness(1.02);
+}
+.dark #robot-background-canvas {
+  filter: none;
+}
+
+

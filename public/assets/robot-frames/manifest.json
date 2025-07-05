@@ -1,0 +1,50 @@
+{
+  "totalFrames": 530,
+  "stages": [
+    {
+      "id": "A1",
+      "startFrame": 1,
+      "endFrame": 83,
+      "count": 83
+    },
+    {
+      "id": "B2",
+      "startFrame": 84,
+      "endFrame": 171,
+      "count": 88
+    },
+    {
+      "id": "C3",
+      "startFrame": 172,
+      "endFrame": 243,
+      "count": 72
+    },
+    {
+      "id": "D4",
+      "startFrame": 244,
+      "endFrame": 319,
+      "count": 76
+    },
+    {
+      "id": "E5",
+      "startFrame": 320,
+      "endFrame": 382,
+      "count": 63
+    },
+    {
+      "id": "F6",
+      "startFrame": 383,
+      "endFrame": 449,
+      "count": 67
+    },
+    {
+      "id": "G7",
+      "startFrame": 450,
+      "endFrame": 530,
+      "count": 81
+    }
+  ],
+  "frameDir": "/assets/robot-frames",
+  "format": "jpg",
+  "namingPattern": "frame_{:04d}.jpg"
+}
